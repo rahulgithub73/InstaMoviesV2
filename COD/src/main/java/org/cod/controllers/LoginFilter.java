@@ -12,7 +12,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-@WebFilter(urlPatterns = { "/index/*","/movies/*","/paginationSeries/*","/paginationMusic/*","/paginationBooks/*","/trainTimeTable/*","/trainRunningInfo/*","/movieDetailPage/*","/subSeries/*","/seriesDetailPage/*","/musicDetailPage/*"})
+@WebFilter(urlPatterns = { "/index/*","/movies/*","/paginationSeries/*","/paginationMusic/*","/paginationBooks/*",
+		"/trainTimeTable/*","/trainRunningInfo/*","/movieDetailPage/*","/subSeries/*","/seriesDetailPage/*","/musicDetailPage/*"
+		,"/paginationrailwayvideo/*","/games/*"})
 public class LoginFilter implements Filter {
 
 	@Override
@@ -28,7 +30,9 @@ public class LoginFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		HttpSession session = request.getSession(false);
 
+		
 		if (session == null || session.getAttribute("mobile") == null) {
+			System.out.println("session "+session);
 			
 			response.sendRedirect("/"); // No logged-in user found, so redirect to login
 															// page.

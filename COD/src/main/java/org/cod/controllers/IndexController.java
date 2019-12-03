@@ -1,6 +1,7 @@
 package org.cod.controllers;
 
-import org.cod.Utility;
+import javax.servlet.http.HttpSession;
+
 import org.cod.entity.UserEntity;
 import org.cod.repository.MovieRepository;
 import org.cod.repository.MoviesCategoryRepository;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class IndexController {
-	
+
 	@Autowired
 	Utility utility;
 
@@ -33,10 +34,9 @@ public class IndexController {
 
 	@Autowired
 	RecentlyActivityRepository recentlyActivityRepository;
-	
+
 	@Autowired
 	MoviesCategoryRepository moviesCategoryRepository;
-
 
 	@Value("${banner.path}")
 	private String bannerPath;
@@ -58,13 +58,23 @@ public class IndexController {
 	}
 
 	@GetMapping("/index")
-	public String getEmployees( Model model) {
+	public String getEmployees(Model model, HttpSession session) {
 		model.addAttribute("movies", moviesCategoryRepository.findAll());
 		model.addAttribute("bannerPath", bannerPath);
-		model.addAttribute("recentActivites", utility.prepare());
+
+		if (session != null && session.getAttribute("mobile") != null) {
+			String mobile = (String) session.getAttribute("mobile");
+			UserEntity userExits = userRepository.findByPhoneNo(mobile);
+			if (userExits != null && userExits.getId() != null) {
+				model.addAttribute("recentActivites", utility.findByUserId(userExits.getId()));
+			}
+
+		} else {
+			model.addAttribute("recentActivites", null);
+		}
+
 		return "index";
 
 	}
 
-	
 }

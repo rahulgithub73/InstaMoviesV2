@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpSession;
 
-import org.cod.Utility;
 import org.cod.entity.UserEntity;
 import org.cod.repository.MovieRepository;
 import org.cod.repository.MoviesCategoryRepository;
@@ -46,29 +45,24 @@ public class UserController {
 
 		UserEntity userExits = userRepository.findByPhoneNo(userEntity.getPhoneNo());
 
-		if (userExits != null) {
-			userExits.setLogin(true);
-			userExits.setCreatedTimestamp(LocalDateTime.now());
-			userExits.setCreatedTimestamp(LocalDateTime.now());
-
-		} else {
+		if (userExits == null) {
+			
 			userEntity.setLogin(true);
 			userEntity.setCreatedTimestamp(LocalDateTime.now());
-			userEntity.setCreatedTimestamp(LocalDateTime.now());
-			userRepository.save(userEntity);
+			userExits = userRepository.save(userEntity);
 		}
 
 		model.addAttribute("movies", moviesCategoryRepository.findAll());
-		model.addAttribute("recentActivites", utility.prepare());
+		model.addAttribute("recentActivites", utility.findByUserId(userExits.getId()));
 		model.addAttribute("bannerPath", bannerPath);
-		session.setAttribute("mobile", userEntity.getPhoneNo());
-
+		session.setAttribute("mobile", userExits.getPhoneNo());
+		
 		return "index";
 	}
 
 	@GetMapping(value = "/logout")
-	public String logout(Model model) {
-
+	public String logout(Model model,HttpSession session) {
+		session.removeAttribute("mobile");
 		return "redirect:/";
 	}
 

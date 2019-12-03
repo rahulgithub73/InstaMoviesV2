@@ -1,4 +1,4 @@
-package org.cod;
+package org.cod.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +30,9 @@ public class Utility {
 	@Autowired
 	MoviesCategoryRepository moviesCategoryRepository;
 
-	public List<RecentlyActivityVO> prepare() {
+	public List<RecentlyActivityVO> findByUserId(Long userId) {
 
-		List<RecentlyActivityEntity> list = recentlyActivityRepository.findAll();
+		List<RecentlyActivityEntity> list = recentlyActivityRepository.findByUserId(userId);
 		if (list == null || list.size() == 0) {
 			return null;
 		}

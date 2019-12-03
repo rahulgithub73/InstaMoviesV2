@@ -191,7 +191,7 @@ span.selected {
 
 						<div class="col-xl-3 col-sm-6 mb-3"
 							th:each="recentActivity : ${recentActivites}">
-							<div class="video-card" style="margin: 5%">
+							<div class="video-card">
 								<div class="video-card-image">
 									<a class="play-icon"
 										th:href="${'/movieDetailPage/'+recentActivity.id+'/'+recentActivity.startTime}"><i
@@ -203,6 +203,18 @@ span.selected {
 										<span th:text="${recentActivity.runtimeMinutes}"> </span>
 									</div>
 								</div>
+								
+								
+								<div class="progress" style="height:7px">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" 
+                                    th:aria-valuenow="${recentActivity.startTime}"
+                                     aria-valuemin="0" th:aria-valuemax="${recentActivity.runtimeMinutes}" 
+                                    th:style="'width:'+${recentActivity.startTime} / ${recentActivity.runtimeMinutes}  * 100+'%'" style="height:7px;">
+                                                     
+                                     </div>
+                                 </div>
+								
+								
 								<div class="video-card-body">
 									<div class="video-title">
 										<a href="#"><span th:text="${recentActivity.name}">
@@ -253,7 +265,7 @@ span.selected {
 							th:each="movie : ${movieCategory.moviesList}">
 
 
-							<div class="video-card" style="margin: 5%">
+							<div class="video-card">
 								<div class="video-card-image">
 									<a class="play-icon"
 										th:href="${'/movieDetailPage/'+movie.id+'/'+movie.startTime}"><i

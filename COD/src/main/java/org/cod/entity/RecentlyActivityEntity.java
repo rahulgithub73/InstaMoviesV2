@@ -28,5 +28,7 @@ public class RecentlyActivityEntity implements Serializable {
 	private Double startTime= 0.0;
 	
 	private String type;
+	
+	private Long userId;
 
 }
